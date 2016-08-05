@@ -1,0 +1,21 @@
+{
+  "name": "backend-api-boilerplate",
+  "version": "0.0.1",
+  "description": "Boilerplate for backend API",
+  "keywords": [],
+  "author": "Sylvain Witmeyer <sylvain.witmeyerb@mapleinside.com>",
+  "license": "MIT",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.12.3",
+    "swagger-express-mw": "^0.1.0"
+  },
+  "devDependencies": {
+    "should": "^7.1.0",
+    "supertest": "^1.0.0"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "test": "swagger project test"
+  }
+}
