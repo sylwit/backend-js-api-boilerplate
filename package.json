@@ -1,21 +1,49 @@
 {
-  "name": "backend-api-boilerplate",
+  "name": "backend-js-api-boilerplate",
   "version": "0.0.1",
-  "description": "Boilerplate for backend API",
-  "keywords": [],
-  "author": "Sylvain Witmeyer <sylvain.witmeyerb@mapleinside.com>",
+  "description": "Boilerplate for backend JS API",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mapleinside/backend-js-api-boilerplate.git"
+  },
+  "keywords": ["API", "REST", "swagger", "boilerplate"],
+  "author": "Sylvain Witmeyer <sylvain@mapleinside.com>",
   "license": "MIT",
   "main": "app.js",
   "dependencies": {
     "express": "^4.12.3",
+    "lodash": "^4.14.1",
+    "mysql": "^2.11.1",
+    "sequelize": "^3.23.4",
     "swagger-express-mw": "^0.1.0"
   },
   "devDependencies": {
-    "should": "^7.1.0",
-    "supertest": "^1.0.0"
+    "babel-cli": "^6.10.1",
+    "babel-core": "^6.9.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.10.3",
+    "mocha": "^2.5.3",
+    "mocha-testdata": "^1.2.0",
+    "nodemon": "^1.9.2",
+    "nyc": "^6.6.1",
+    "sequelize-cli": "^2.4.0",
+    "sequelize-fixtures": "^0.5.4",
+    "should": "^10.0.0",
+    "sinon": "^1.17.4",
+    "sinon-stub-promise": "^3.0.1",
+    "sqlite3": "^3.1.4",
+    "supertest": "^1.2.0",
+    "swagger": "^0.7.5"
   },
   "scripts": {
+    "build": "babel src -d api",
+    "edit": "swagger_swagger_fileName=config/swagger.yaml swagger project edit",
+    "local": "nodemon -e js,yaml --debug app.js",
     "start": "node app.js",
-    "test": "swagger project test"
+    "test": "PORT=3002 mocha",
+    "coverage": "nyc --reporter=lcov npm test",
+    "watch": "babel --watch src -d api",
+    "gateway": "sed -e '/NOT_VALID_AWS/s/^/#/g' -e \"/ VALID_AWS/s/^#//g\" config/swagger.yaml > config/gateway.yaml"
   }
 }

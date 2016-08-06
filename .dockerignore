@@ -1,0 +1,12 @@
+coverage
+mysql
+node_modules
+.idea
+test
+
+.git
+.gitignore
+.nyc_output
+LICENSE
+README.md
+docker-compose.yml

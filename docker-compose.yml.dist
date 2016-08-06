@@ -1,0 +1,52 @@
+api:
+  image: node:6.3
+  working_dir: /app
+  links:
+    - db:db
+  volumes:
+    - .:/app
+  command: npm run local
+  ports:
+    - "3000:3000"
+  environment:
+    - NODE_ENV=development
+    - SEQUELIZE_LOGGING=true
+    - APP_NAME=api-service
+    - MYSQL_URL=mysql://user:password@db/APIService
+
+db:
+  image: mariadb:10.1
+  ports:
+    - "3306:3306"
+  environment:
+    - MYSQL_ROOT_PASSWORD=root
+    - MYSQL_DATABASE=APIService
+    - MYSQL_USER=user
+    - MYSQL_PASSWORD=password
+  volumes:
+    - ./mysql:/var/lib/mysql
+
+
+sut:
+  image: node:6.3
+  working_dir: /app
+  links:
+    - db_test:db_test
+  volumes:
+    - .:/app
+  command: "npm test"
+  environment:
+    - NODE_ENV=development
+    - MYSQL_URL=mysql://root:root@db_test/APIServiceTest
+    - SEQUELIZE_LOGGING=false
+#    - PORT=3001
+
+db_test:
+  image: mariadb:10.1
+  ports:
+    - "3307:3306"
+  environment:
+    - MYSQL_ROOT_PASSWORD=root
+    - MYSQL_DATABASE=APIServiceTest
+    - MYSQL_USER=user
+    - MYSQL_PASSWORD=password

@@ -1,0 +1,40 @@
+[
+  {
+    "model": "User",
+    "data": {
+      "id": "0060d5c6-b6b8-4760-b641-ee15dd7f055b",
+      "email": "user1@gmail.com",
+      "lang": "fr",
+      "status": "pending",
+      "lastname": "Lastname",
+      "firstname": "Firstname",
+      "company": "My company",
+      "companyIdentification": "111-2222-3333",
+      "pass": "$2a$10$2DJCP77VsoTLEJDYhh8NGuBDB3q2AHSiA9TJ674zBgwczLadadPn2"
+    }
+  },
+  {
+    "model": "User",
+    "data": {
+      "id": "008a4002-029d-4ee1-bc86-0c88d942e4df",
+      "phone1": "+14180000000",
+      "lang": "en",
+      "status": "active",
+      "lastname": "Lastname2",
+      "firstname": "Firstname2",
+      "pass": "$2a$10$2DJCP77VsoTLEJDYhh8NGuBDB3q2AHSiA9TJ674zBgwczLadadPn2"
+    }
+  },
+  {
+    "model": "User",
+    "data": {
+      "id": "00a7e4a6-2970-4564-971a-92ba4c9fee05",
+      "email": "user3@gmail.com",
+      "lang": "fr",
+      "status": "pending",
+      "lastname": "Doe",
+      "firstname": "John",
+      "pass": "$2a$10$RWzAejE7iSYkDTQCU6GPbOTHozCBKT9174Yd.dT0Lelu7Dy4zliFG"
+    }
+  }
+]

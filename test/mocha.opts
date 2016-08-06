@@ -1,0 +1,4 @@
+api/test
+--require ./test/bootstrap
+--reporter spec
+--recursive

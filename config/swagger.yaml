@@ -1,0 +1,203 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: Boilerplate for backend JS API
+basePath: /
+host: 127.0.0.1:3000 # NOT_VALID_AWS GATEWAY
+schemes:
+  - http
+#  - https # VALID_AWS GATEWAY
+consumes:
+  - application/json; charset=utf-8
+produces:
+  - application/json; charset=utf-8
+parameters:
+  id:
+    name: id
+    in: path
+    description: Id of resource
+    required: true
+    type: string
+  filters:
+    name: filters
+    in: query
+    description: "ex : {\"property\":\"%value%|like\"}"
+    required: false
+    type: string
+  sort:
+    name: sort
+    in: query
+    description: property to sort on
+    required: false
+    type: string
+    default: createdAt|DESC
+  start:
+    name: start
+    in: query
+    description: number of items to skip - offset
+    required: false
+    type: integer
+    default: 0
+  limit:
+    name: limit
+    in: query
+    description: number of items to fetch
+    required: false
+    type: integer
+    maximum: 1000
+    default: 1000
+
+#responses:
+#  400:
+#    description: Bad Request.
+#    schema:
+#      $ref: "#/definitions/ErrorResponse"
+#  404:
+#    description: Entity not found.
+#    schema:
+#      $ref: "#/definitions/ErrorResponse"
+#  500:
+#    description: Error.
+#    schema:
+#      $ref: "#/definitions/ErrorResponse"
+
+paths:
+  /users:
+    x-swagger-router-controller: users
+    get:
+      description: Returns all users
+      tags:
+        - Users
+      operationId: findAll
+      parameters:
+        - $ref: '#/parameters/filters'
+        - $ref: '#/parameters/sort'
+        - $ref: '#/parameters/start'
+        - $ref: '#/parameters/limit'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/FindAllUsersResponse"
+        400:
+          description: Bad Request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+#          $ref: "#/responses/500"
+          description: Error.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+      x-amazon-apigateway-integration:
+        responses:
+          200:
+            "statusCode": "200"
+          400:
+            "statusCode": "400"
+          "5\\d{2}":
+            statusCode: "500"
+        uri: "http://${stageVariables.url}/users"
+        httpMethod: GET
+        requestParameters:
+          integration.request.querystring.filters: method.request.querystring.filters
+          integration.request.querystring.start: method.request.querystring.start
+          integration.request.querystring.limit: method.request.querystring.limit
+          integration.request.querystring.sort: method.request.querystring.sort
+        type: "http"
+
+  "/swagger.json":
+    get:
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.url}/swagger.json"
+        type: "http"
+    options:
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              "method.response.header.Access-Control-Allow-Methods": "'GET,OPTIONS'"
+              "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              "method.response.header.Access-Control-Allow-Origin": "'*'"
+        requestTemplates:
+          "application/json": "{\"statusCode\": 200}"
+        type: "mock"
+
+definitions:
+
+  User:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      email:
+        type: [ string, "null" ] # NOT_VALID_AWS GATEWAY
+#        type: string # VALID_AWS GATEWAY
+        format: email
+        maxLength: 100
+      createdAt:
+        type: string
+        format: date-time
+      updatedAt:
+        type: string
+        format: date-time
+
+      deletedAt:
+        type: [ string, "null" ] # NOT_VALID_AWS GATEWAY
+#        type: string # VALID_AWS GATEWAY
+        format: date-time
+
+  FindAllResponse:
+    type: object
+    required:
+      - count
+      - rows
+    properties:
+      count:
+        type: integer
+      rows:
+        type: array
+        items:
+          type: object
+
+  FindAllUsersResponse:
+    allOf:
+      - $ref: "#/definitions/FindAllResponse"
+      - type: object
+        properties:
+          rows:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string

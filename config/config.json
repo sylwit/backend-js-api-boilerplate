@@ -1,0 +1,14 @@
+{
+  "development": {
+    "use_env_variable": "MYSQL_URL",
+    "dialect": "mysql"
+  },
+  "staging": {
+    "use_env_variable": "MYSQL_URL",
+    "dialect": "mysql"
+  },
+  "prod": {
+    "use_env_variable": "MYSQL_URL",
+    "dialect": "mysql"
+  }
+}
