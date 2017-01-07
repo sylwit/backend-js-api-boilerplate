@@ -1,6 +1,6 @@
 FROM node:6.3
 
-MAINTAINER Sylvain Witmeyer <sylvain@mapleinside.com>
+MAINTAINER Sylvain Witmeyer <sylvain.witmeyer@gmail.com>
 
 RUN mkdir /app
 WORKDIR /app
